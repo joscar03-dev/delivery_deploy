@@ -4,6 +4,8 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\NegocioResource\Pages;
 use App\Filament\Resources\NegocioResource\RelationManagers;
+use App\Filament\Resources\NegocioResource\RelationManagers\CategoriasRelationManager;
+use App\Filament\Resources\NegocioResource\RelationManagers\ProductosRelationManager;
 use App\Models\Negocio;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms;
@@ -29,7 +31,7 @@ class NegocioResource extends Resource
 
     public static function table(Table $table): Table
     {
-        
+
         return $table
             ->columns([
                 TextColumn::make('id')->label('ID')->sortable(),
@@ -60,45 +62,46 @@ class NegocioResource extends Resource
     }
 
     // NegocioResource.php
-public static function form(Form $form): Form
-{
-    return $form
-        ->schema([
-            TextInput::make('nombre')
-                ->label('Nombre del Negocio')
-                ->required()
-                ->maxLength(255),
-            TextInput::make('direccion')
-                ->label('Dirección del Negocio')
-                ->required(),
-            TextInput::make('telefono')
-                ->label('Teléfono del Negocio')
-                ->required()
-                ->maxLength(15),
-            TextInput::make('email')
-                ->label('Email del Negocio')
-                ->email()
-                ->required(),
-            Select::make('tipo_negocio_id')
-                ->relationship('tipoNegocio', 'nombre')
-                ->required(),
-            TimePicker::make('hora_apertura')
-                ->label('Hora de Apertura')
-                ->required(),
-            TimePicker::make('hora_cierre')
-                ->label('Hora de Cierre')
-                ->required(),
-            FileUpload::make('imagen')->image(),
+    public static function form(Form $form): Form
+    {
+        return $form
+            ->schema([
+                TextInput::make('nombre')
+                    ->label('Nombre del Negocio')
+                    ->required()
+                    ->maxLength(255),
+                TextInput::make('direccion')
+                    ->label('Dirección del Negocio')
+                    ->required(),
+                TextInput::make('telefono')
+                    ->label('Teléfono del Negocio')
+                    ->required()
+                    ->maxLength(15),
+                TextInput::make('email')
+                    ->label('Email del Negocio')
+                    ->email()
+                    ->required(),
+                Select::make('tipo_negocio_id')
+                    ->relationship('tipoNegocio', 'nombre')
+                    ->required(),
+                TimePicker::make('hora_apertura')
+                    ->label('Hora de Apertura')
+                    ->required(),
+                TimePicker::make('hora_cierre')
+                    ->label('Hora de Cierre')
+                    ->required(),
+                FileUpload::make('imagen')->image(),
 
-            
-        ]);
-}
+
+            ]);
+    }
 
 
     public static function getRelations(): array
     {
         return [
-            //
+            CategoriasRelationManager::class,
+            ProductosRelationManager::class,
         ];
     }
 
