@@ -27,26 +27,18 @@ class Negocio extends Model
         return $this->hasMany(Categoria::class, 'negocio_id');
     }
 
-    // Relación con los platos (a través de las categorías)
+
     public function productos()
     {
-        return $this->hasManyThrough(Producto::class, Categoria::class, 'negocio_id', 'categoria_id');
+        return $this->hasMany(Producto::class); // Relación directa
     }
+
 
     public function tipoNegocio()
     {
         return $this->belongsTo(TipoNegocio::class, 'tipo_negocio_id');
     }
-    /* public function estaAbierto()
-    {
-        
-        $horaActual = Carbon::now();
-        $horaApertura = Carbon::createFromFormat('H:i:s', $this->hora_apertura);
-        $horaCierre = Carbon::createFromFormat('H:i:s', $this->hora_cierre);
-        
 
-        return $horaActual->between($horaApertura, $horaCierre);
-    } */
     public function getEstadoAttribute()
     {
         $horaActual = Carbon::now();
